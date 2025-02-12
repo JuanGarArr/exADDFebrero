@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.google.services)
 }
 
@@ -47,6 +48,12 @@ dependencies {
     //Gson
     implementation (libs.gson)
 
+    //Room
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+
+
     //Firestore
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore)
@@ -54,4 +61,12 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+
 }
+ksp {
+    arg("KOIN_CONFIG_CHECK", "true")
+
+}
+
+
