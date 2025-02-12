@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.esaadfebrerogaj.domain.Mushroom
 
 
 const val MUSHROOM_TABLE_NAME = "mushrooms"
@@ -13,24 +14,25 @@ const val CARDS_TABLE_NAME = "cards"
 
 @Entity(tableName = MUSHROOM_TABLE_NAME)
 data class MushroomEntity(
-    @PrimaryKey val id: String,
-    val name: String,
-    val family: String,
-    val description: String
-)
+    @ColumnInfo(name = "idMushroom") @PrimaryKey val idMushroom: String,
+    @ColumnInfo(name = "name") val name: String,
+    @ColumnInfo(name = "family") val family: String,
+    @ColumnInfo(name = "description") val description: String,
+
+    )
 
 @Entity(tableName = ALBUMS_TABLE_NAME)
-data class CardEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    @Embedded val mushroom: MushroomEntity,
-    val mushroomImg: String,
-    val latitude: String,
-    val altitude: String,
-    val date: String
+data class AlbumEntity(
+    @PrimaryKey @ColumnInfo(name = "title") val title: String,
+    @ColumnInfo(name = "card") val card: String
 )
 
 @Entity(tableName = CARDS_TABLE_NAME)
-data class AlbumEntity(
-    @PrimaryKey val title: String,
-    @Embedded val card: CardEntity
+data class CardEntity(
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Int = 0,
+    @ColumnInfo(name = "mushroom") val mushroom: Mushroom,
+    @ColumnInfo(name = "mushroomImg") val mushroomImg: String,
+    @ColumnInfo(name = "latitude") val latitude: String,
+    @ColumnInfo(name = "altitude") val altitude: String,
+    @ColumnInfo(name = "date") val date: String
 )

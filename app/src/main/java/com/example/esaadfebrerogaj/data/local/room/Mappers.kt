@@ -5,14 +5,14 @@ import com.example.esaadfebrerogaj.domain.Card
 import com.example.esaadfebrerogaj.domain.Mushroom
 
 fun MushroomEntity.toModel() = Mushroom(
-    id = id,
+    idMushroom = idMushroom,
     name = name,
     family = family,
     description = description
 )
 
 fun CardEntity.toModel() = Card(
-    mushroom = mushroom.toModel(),
+    mushroom = mushroom,
     mushroomImg = mushroomImg,
     latitude = latitude,
     altitude = altitude,
@@ -20,14 +20,14 @@ fun CardEntity.toModel() = Card(
 )
 
 fun Mushroom.toEntity() = MushroomEntity(
-    id = id,
+    idMushroom = idMushroom,
     name = name,
     family = family,
     description = description
 )
 
 fun Card.toEntity() = CardEntity(
-    mushroom = mushroom.toEntity(),
+    mushroom = mushroom.toString(),
     mushroomImg = mushroomImg,
     latitude = latitude,
     altitude = altitude,
@@ -36,10 +36,10 @@ fun Card.toEntity() = CardEntity(
 
 fun Album.toEntity() = AlbumEntity(
     title = title,
-    card = card.toEntity()
+    card = card.toString()
 )
 
 fun AlbumEntity.toModel() = Album(
     title = title,
-    card = card.toModel()
+    card = card.toString()
 )

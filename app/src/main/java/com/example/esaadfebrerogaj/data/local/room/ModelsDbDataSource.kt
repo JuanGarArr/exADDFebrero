@@ -3,6 +3,7 @@ package com.example.esaadfebrerogaj.data.local.room
 import com.example.esaadfebrerogaj.db.AppDatabase
 import com.example.esaadfebrerogaj.domain.Album
 import com.example.esaadfebrerogaj.domain.Card
+import com.google.gson.Gson
 
 class ModelsDbDataSource(private val database: AppDatabase) {
 
@@ -25,8 +26,9 @@ class ModelsDbDataSource(private val database: AppDatabase) {
         return modelsDao.getAllCards().map { it.toModel() }
     }
 
-    fun getCardsByAlbum(albumTitle: String): List<Card> {
-        return modelsDao.getCardsByAlbum(albumTitle).map { it.toModel() }
+    fun getCardsByAlbum(albumTitle: String): List<CardEntity> {
+        val cardJson = modelsDao.getCardJsonByAlbum(albumTitle)
+        return cardJson?.let { listOf(Gson().fromJson(it, CardEntity::class.java)) } ?: emptyList()
     }
 
     fun insertCard(card: Card) {

@@ -7,11 +7,11 @@ import com.example.esaadfebrerogaj.data.ModelsDataRepository
 import com.example.esaadfebrerogaj.data.local.ModelsXmlDataSource
 import com.example.esaadfebrerogaj.data.local.room.ModelsDbDataSource
 import com.example.esaadfebrerogaj.data.remote.ModelsMockDataSource
-import com.example.esaadfebrerogaj.db.AppDatabase
 import com.example.esaadfebrerogaj.db.DatabaseProvider
 import com.example.esaadfebrerogaj.domain.Album
 import com.example.esaadfebrerogaj.domain.Card
 import com.example.esaadfebrerogaj.domain.Mushroom
+import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,9 +38,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         val newAlbum = Album(
-            title = "Álbum de Setas Raras", card = Card(
+            title = "Álbum de Setas Raras",
+            card = Card(
                 mushroom = Mushroom(
-                    "6", "Trufa Negra", "Tuberaceae", "Seta subterránea muy apreciada"
+                    idMushroom = "6",
+                    name = "Trufa Negra",
+                    family = "Tuberaceae",
+                    description = "Seta subterránea muy apreciada"
                 ),
                 mushroomImg = "foto_trufa.jpg",
                 latitude = "12.0",
@@ -60,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         val cardToDelete = albums.firstOrNull()?.card
         cardToDelete?.let {
             sharedRepository.deleteCard(it)
-            Log.d("@dev", "Cromo eliminado: ${it.mushroom.name}")
+            Log.d("@dev", "Cromo eliminado: ${it.mushroom}")
         }
 
     }
