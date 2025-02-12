@@ -7,6 +7,7 @@ import com.example.esaadfebrerogaj.data.ModelsDataRepository
 import com.example.esaadfebrerogaj.data.local.ModelsXmlDataSource
 import com.example.esaadfebrerogaj.data.local.room.ModelsDbDataSource
 import com.example.esaadfebrerogaj.data.remote.ModelsMockDataSource
+import com.example.esaadfebrerogaj.data.remote.firestore.ModelsFirestoreDataSource
 import com.example.esaadfebrerogaj.db.DatabaseProvider
 import com.example.esaadfebrerogaj.domain.Album
 import com.example.esaadfebrerogaj.domain.Card
@@ -18,7 +19,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        examExersice2()
+    //examExersice1()
+    //examExersice2()
+    //examExersice3()
     }
 
 
@@ -28,7 +31,8 @@ class MainActivity : AppCompatActivity() {
             localRoom = ModelsDbDataSource(
                 DatabaseProvider.getDatabase(this)
             ),
-            remoteMock = ModelsMockDataSource()
+            remoteMock = ModelsMockDataSource(),
+            remoteFirestore = ModelsFirestoreDataSource()
         )
 
         val albums = sharedRepository.getAlbumList()
@@ -75,7 +79,8 @@ class MainActivity : AppCompatActivity() {
             val sharedRepository = ModelsDataRepository(
                 localShared = ModelsXmlDataSource(this),
                 localRoom = ModelsDbDataSource(DatabaseProvider.getDatabase(this)),
-                remoteMock = ModelsMockDataSource()
+                remoteMock = ModelsMockDataSource(),
+                remoteFirestore = ModelsFirestoreDataSource()
             )
 
             val albums = sharedRepository.getAlbumList()
@@ -108,5 +113,18 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+    }
+
+    private fun examExersice3(){
+        val sharedRepository = ModelsDataRepository(
+            localShared = ModelsXmlDataSource(this),
+            localRoom = ModelsDbDataSource(DatabaseProvider.getDatabase(this)),
+            remoteMock = ModelsMockDataSource(),
+            remoteFirestore = ModelsFirestoreDataSource()
+        )
+
+        //Evidentemente no funciona
+        Log.d("@dev", sharedRepository.getAlbumList().toString())
+
     }
 }

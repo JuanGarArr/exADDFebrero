@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -53,6 +54,9 @@ dependencies {
     ksp(libs.androidx.room.compiler)
 
 
+    //Firestore
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.firestore)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
