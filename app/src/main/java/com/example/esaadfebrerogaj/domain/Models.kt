@@ -1,7 +1,7 @@
 package com.example.esaadfebrerogaj.domain
 
 data class Mushroom(
-    val id: String,
+    val idMushroom: String,
     val name:String,
     val family:String,
     val description:String

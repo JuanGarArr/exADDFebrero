@@ -40,7 +40,7 @@ class ModelsDataRepository(
 
     override fun deleteCard(card: Card) {
         val updatedAlbums = getAlbumList().map { album ->
-            if (album.card.mushroom.id == card.mushroom.id) {
+            if (album.card.mushroom.idMushroom == card.mushroom.idMushroom) {
                 album.copy(card = card.copy(mushroomImg = "", latitude = "", altitude = "", date = ""))
             } else album
         }
