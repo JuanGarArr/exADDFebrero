@@ -12,6 +12,7 @@ import com.example.esaadfebrerogaj.domain.Album
 import com.example.esaadfebrerogaj.domain.Card
 import com.example.esaadfebrerogaj.domain.Mushroom
 import com.google.gson.Gson
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,45 +71,42 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun examExersice2() {
-        val sharedRepository = ModelsDataRepository(
-            localShared = ModelsXmlDataSource(this),
-            localRoom = ModelsDbDataSource(DatabaseProvider.getDatabase(this)),
-            remoteMock = ModelsMockDataSource()
-        )
-
-        val albums = sharedRepository.getAlbumList()
-        albums.forEach { album ->
-            Log.d("@dev", "📖 Álbum: ${album.title}")
-            Log.d("@dev", "   📌 Cromo:")
-            Log.d("@dev", "      🏷️ Seta: ${album.card.mushroom.name}")
-            Log.d("@dev", "      🖼️ Imagen: ${album.card.mushroomImg}")
-            Log.d("@dev", "      📍 Ubicación: Latitud ${album.card.latitude}, Altitud ${album.card.altitude}")
-            Log.d("@dev", "      📅 Fecha: ${album.card.date}")
-        }
-
-        val newAlbum = Album(
-            title = "Álbum de Setas Raras",
-            card = Card(
-                mushroom = Mushroom("6", "Trufa Negra", "Tuberaceae", "Seta subterránea muy apreciada"),
-                mushroomImg = "foto_trufa.jpg",
-                latitude = "12.0",
-                altitude = "5.0",
-                date = "10/08/2024"
+        thread {
+            val sharedRepository = ModelsDataRepository(
+                localShared = ModelsXmlDataSource(this),
+                localRoom = ModelsDbDataSource(DatabaseProvider.getDatabase(this)),
+                remoteMock = ModelsMockDataSource()
             )
-        )
-        sharedRepository.setAlbum(newAlbum)
-        Log.d("@dev", "✅ Álbum creado: ${newAlbum.title}")
 
-        val albumToDelete = albums.firstOrNull()
-        albumToDelete?.let {
-            sharedRepository.deleteAlbum(it)
-            Log.d("@dev", "🗑️ Álbum eliminado: ${it.title}")
-        }
+            val albums = sharedRepository.getAlbumList()
+            albums.forEach { album ->
+                Log.d("@dev", "📖 Álbum: ${album.title}")
+                Log.d("@dev", "   📌 Cromo:")
+                Log.d("@dev", "      🏷️ Seta: ${album.card.mushroom.name}")
+                Log.d("@dev", "      🖼️ Imagen: ${album.card.mushroomImg}")
+                Log.d("@dev", "      📍 Ubicación: Latitud ${album.card.latitude}, Altitud ${album.card.altitude}")
+                Log.d("@dev", "      📅 Fecha: ${album.card.date}")
+            }
 
-        val cardToDelete = albums.firstOrNull()?.card
-        cardToDelete?.let {
-            sharedRepository.deleteCard(it)
-            Log.d("@dev", "🗑️ Cromo eliminado: ${it.mushroom.name}")
+            val newAlbum = Album(
+                title = "Álbum de Setas Raras",
+                card = Card(
+                    mushroom = Mushroom("6", "Trufa Negra", "Tuberaceae", "Seta subterránea muy apreciada"),
+                    mushroomImg = "foto_trufa.jpg",
+                    latitude = "12.0",
+                    altitude = "5.0",
+                    date = "10/08/2024"
+                )
+            )
+            sharedRepository.setAlbum(newAlbum)
+            Log.d("@dev", "✅ Álbum creado: ${newAlbum.title}")
+
+            val albumToDelete = albums.firstOrNull()
+            albumToDelete?.let {
+                sharedRepository.deleteAlbum(it)
+                Log.d("@dev", "🗑️ Álbum eliminado: ${it.title}")
+            }
+
         }
     }
 }

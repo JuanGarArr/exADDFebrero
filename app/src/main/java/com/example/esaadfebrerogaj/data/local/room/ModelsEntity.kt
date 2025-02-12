@@ -27,12 +27,14 @@ data class AlbumEntity(
     @ColumnInfo(name = "card") val card: String
 )
 
+
 @Entity(tableName = CARDS_TABLE_NAME)
 data class CardEntity(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Int = 0,
-    @ColumnInfo(name = "mushroom") val mushroom: Mushroom,
+    @ColumnInfo(name = "mushroom") val mushroom: String,
     @ColumnInfo(name = "mushroomImg") val mushroomImg: String,
     @ColumnInfo(name = "latitude") val latitude: String,
     @ColumnInfo(name = "altitude") val altitude: String,
     @ColumnInfo(name = "date") val date: String
 )
+

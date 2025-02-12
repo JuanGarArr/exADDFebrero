@@ -4,7 +4,6 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 
 class Converters {
-
     private val gson = Gson()
 
     @TypeConverter
@@ -26,6 +25,4 @@ class Converters {
     fun toCardEntity(json: String): CardEntity {
         return gson.fromJson(json, CardEntity::class.java)
     }
-
-
 }

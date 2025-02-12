@@ -3,6 +3,7 @@ package com.example.esaadfebrerogaj.data.local.room
 import com.example.esaadfebrerogaj.domain.Album
 import com.example.esaadfebrerogaj.domain.Card
 import com.example.esaadfebrerogaj.domain.Mushroom
+import com.google.gson.Gson
 
 fun MushroomEntity.toModel() = Mushroom(
     idMushroom = idMushroom,
@@ -12,11 +13,16 @@ fun MushroomEntity.toModel() = Mushroom(
 )
 
 fun CardEntity.toModel() = Card(
-    mushroom = mushroom,
+    mushroom = Gson().fromJson(mushroom, Mushroom::class.java),
     mushroomImg = mushroomImg,
     latitude = latitude,
     altitude = altitude,
     date = date
+)
+
+fun AlbumEntity.toModel() = Album(
+    title = title,
+    card = Gson().fromJson(card, Card::class.java)
 )
 
 fun Mushroom.toEntity() = MushroomEntity(
@@ -27,7 +33,7 @@ fun Mushroom.toEntity() = MushroomEntity(
 )
 
 fun Card.toEntity() = CardEntity(
-    mushroom = mushroom.toString(),
+    mushroom = Gson().toJson(mushroom),
     mushroomImg = mushroomImg,
     latitude = latitude,
     altitude = altitude,
@@ -36,10 +42,5 @@ fun Card.toEntity() = CardEntity(
 
 fun Album.toEntity() = AlbumEntity(
     title = title,
-    card = card.toString()
-)
-
-fun AlbumEntity.toModel() = Album(
-    title = title,
-    card = card.toString()
+    card = Gson().toJson(card)
 )

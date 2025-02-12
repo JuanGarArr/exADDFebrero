@@ -47,12 +47,15 @@ class ModelsDataRepository(
     }
 
     override fun deleteCard(card: Card) {
+        val cardMushroomId = card.mushroom.idMushroom
+        localRoom.deleteCard(cardMushroomId.toIntOrNull() ?: return)
+
         val updatedAlbums = getAlbumList().map { album ->
-            if (album.card.mushroom.id == card.mushroom.id) {
+            if (album.card.mushroom.idMushroom == cardMushroomId) {
                 album.copy(card = card.copy(mushroomImg = "", latitude = "", altitude = "", date = ""))
             } else album
         }
         localShared.setAlbumList(updatedAlbums)
-        localRoom.deleteCard(card.mushroom.id.toInt())
     }
+
 }

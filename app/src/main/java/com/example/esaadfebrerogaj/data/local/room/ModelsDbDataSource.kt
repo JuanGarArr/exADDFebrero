@@ -17,7 +17,6 @@ class ModelsDbDataSource(private val database: AppDatabase) {
         modelsDao.insertAlbum(album.toEntity())
     }
 
-
     fun deleteAlbum(title: String) {
         modelsDao.deleteAlbum(title)
     }
@@ -26,9 +25,9 @@ class ModelsDbDataSource(private val database: AppDatabase) {
         return modelsDao.getAllCards().map { it.toModel() }
     }
 
-    fun getCardsByAlbum(albumTitle: String): List<CardEntity> {
+    fun getCardsByAlbum(albumTitle: String): List<Card> {
         val cardJson = modelsDao.getCardJsonByAlbum(albumTitle)
-        return cardJson?.let { listOf(Gson().fromJson(it, CardEntity::class.java)) } ?: emptyList()
+        return cardJson?.let { listOf(Gson().fromJson(it, Card::class.java)) } ?: emptyList() // Convertir JSON a `Card`
     }
 
     fun insertCard(card: Card) {
@@ -39,3 +38,4 @@ class ModelsDbDataSource(private val database: AppDatabase) {
         modelsDao.deleteCard(cardId)
     }
 }
+
