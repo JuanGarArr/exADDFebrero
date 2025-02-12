@@ -3,6 +3,7 @@ package com.example.esaadfebrerogaj.data
 import com.example.esaadfebrerogaj.data.local.ModelsXmlDataSource
 import com.example.esaadfebrerogaj.data.local.room.ModelsDbDataSource
 import com.example.esaadfebrerogaj.data.remote.ModelsMockDataSource
+import com.example.esaadfebrerogaj.data.remote.firestore.ModelsFirestoreDataSource
 import com.example.esaadfebrerogaj.domain.Album
 import com.example.esaadfebrerogaj.domain.Card
 import com.example.esaadfebrerogaj.domain.ModelsRepository
@@ -10,17 +11,28 @@ import com.example.esaadfebrerogaj.domain.ModelsRepository
 class ModelsDataRepository(
     private val localShared : ModelsXmlDataSource,
     private val localRoom : ModelsDbDataSource,
-    private val remoteMock : ModelsMockDataSource
+    private val remoteMock : ModelsMockDataSource,
+    private val remoteFirestore: ModelsFirestoreDataSource
 ) : ModelsRepository{
 
     override fun getAlbumList(): List<Album> {
         var localAlbumList = localShared.getAlbumList()
-        localAlbumList.ifEmpty {
+
+        if (localAlbumList.isEmpty()) {
             localAlbumList = remoteMock.getRemoteAlbumList()
-            localAlbumList.forEach{ album ->
+            localAlbumList.forEach { album ->
                 localRoom.insertAlbum(album)
             }
         }
+
+        if (localAlbumList.isEmpty()) {
+            remoteFirestore.getAlbumsFromFirestore { firestoreAlbums ->
+                firestoreAlbums.forEach { album ->
+                    localRoom.insertAlbum(album)
+                }
+            }
+        }
+
         return localAlbumList
     }
 
