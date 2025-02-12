@@ -19,6 +19,7 @@ class ModelsXmlDataSource (context: Context) {
     }
 
 
+    //no se usa por el momento
     fun getAlbum(title: String): Album? {
         val json = sharedPref.getString(title, null) ?: return null
         return gson.fromJson(json, Album::class.java)
@@ -49,6 +50,7 @@ class ModelsXmlDataSource (context: Context) {
         editor.remove(title).apply()
     }
 
+    //no se usa por el momento
     fun deleteCard(card: Card){
         val editor = sharedPref.edit()
         editor.remove(card.toString()).apply()
