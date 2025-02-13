@@ -9,7 +9,7 @@ import androidx.room.Query
 @Dao
 interface ModelsDao {
 
-    @Query("SELECT title, card FROM albums")
+    @Query("SELECT * FROM albums")
     fun getAllAlbums(): List<AlbumEntity>
 
 
@@ -19,17 +19,10 @@ interface ModelsDao {
     @Query("DELETE FROM albums WHERE title = :title")
     fun deleteAlbum(title: String)
 
-    @Query("SELECT * FROM cards")
-    fun getAllCards(): List<CardEntity>
-
     @Query("SELECT card FROM albums WHERE title = :albumTitle")
     fun getCardJsonByAlbum(albumTitle: String): String?
 
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCard(card: CardEntity)
-
-    @Query("DELETE FROM cards WHERE id = :cardId")
+    @Query("DELETE FROM albums WHERE title = :cardId")
     fun deleteCard(cardId: Int)
 
 

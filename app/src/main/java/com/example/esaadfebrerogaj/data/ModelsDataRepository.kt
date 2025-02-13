@@ -11,8 +11,7 @@ import com.example.esaadfebrerogaj.domain.ModelsRepository
 class ModelsDataRepository(
     private val localShared : ModelsXmlDataSource,
     private val localRoom : ModelsDbDataSource,
-    private val remoteMock : ModelsMockDataSource,
-    private val remoteFirestore: ModelsFirestoreDataSource
+    private val remoteMock : ModelsMockDataSource
 ) : ModelsRepository{
 
     override fun getAlbumList(): List<Album> {
@@ -24,27 +23,7 @@ class ModelsDataRepository(
                 localRoom.insertAlbum(album)
             }
         }
-
-        if (localAlbumList.isEmpty()) {
-            remoteFirestore.getAlbumsFromFirestore { firestoreAlbums ->
-                firestoreAlbums.forEach { album ->
-                    localRoom.insertAlbum(album)
-                }
-            }
-        }
-
         return localAlbumList
-    }
-
-    override fun getCardList(): List<Card> {
-        var localCardList = localShared.getCardList()
-        localCardList.ifEmpty {
-            localCardList = remoteMock.getRemoteCardList()
-            localCardList.forEach { card ->
-                localRoom.insertCard(card)
-            }
-        }
-        return localCardList
     }
 
     override fun setAlbum(album: Album) {
@@ -58,17 +37,6 @@ class ModelsDataRepository(
 
     }
 
-    override fun deleteCard(card: Card) {
-        val cardMushroomId = card.mushroom.idMushroom
-        localRoom.deleteCard(cardMushroomId.toIntOrNull() ?: return)
-
-        val updatedAlbums = getAlbumList().map { album ->
-            if (album.card.mushroom.idMushroom == cardMushroomId) {
-                album.copy(card = card.copy(mushroomImg = "", latitude = "", altitude = "", date = ""))
-            } else album
-        }
-        localShared.setAlbumList(updatedAlbums)
-    }
 
 
 }

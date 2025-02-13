@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     //examExersice1()
-    //examExersice2()
+    examExersice2()
     //examExersice3()
     }
 
@@ -31,8 +31,7 @@ class MainActivity : AppCompatActivity() {
             localRoom = ModelsDbDataSource(
                 DatabaseProvider.getDatabase(this)
             ),
-            remoteMock = ModelsMockDataSource(),
-            remoteFirestore = ModelsFirestoreDataSource()
+            remoteMock = ModelsMockDataSource()
         )
 
         val albums = sharedRepository.getAlbumList()
@@ -66,11 +65,6 @@ class MainActivity : AppCompatActivity() {
             Log.d("@dev", "Álbum eliminado: ${it.title}")
         }
 
-        val cardToDelete = albums.firstOrNull()?.card
-        cardToDelete?.let {
-            sharedRepository.deleteCard(it)
-            Log.d("@dev", "Cromo eliminado: ${it.mushroom}")
-        }
 
     }
 
@@ -79,14 +73,15 @@ class MainActivity : AppCompatActivity() {
             val sharedRepository = ModelsDataRepository(
                 localShared = ModelsXmlDataSource(this),
                 localRoom = ModelsDbDataSource(DatabaseProvider.getDatabase(this)),
-                remoteMock = ModelsMockDataSource(),
-                remoteFirestore = ModelsFirestoreDataSource()
+                remoteMock = ModelsMockDataSource()
             )
 
             val albums = sharedRepository.getAlbumList()
+
+
             albums.forEach { album ->
                 Log.d("@dev", "📖 Álbum: ${album.title}")
-                Log.d("@dev", "   📌 Cromo:")
+                Log.d("@dev", "   📌 Carta:")
                 Log.d("@dev", "      🏷️ Seta: ${album.card.mushroom.name}")
                 Log.d("@dev", "      🖼️ Imagen: ${album.card.mushroomImg}")
                 Log.d("@dev", "      📍 Ubicación: Latitud ${album.card.latitude}, Altitud ${album.card.altitude}")
@@ -106,11 +101,7 @@ class MainActivity : AppCompatActivity() {
             sharedRepository.setAlbum(newAlbum)
             Log.d("@dev", "✅ Álbum creado: ${newAlbum.title}")
 
-            val albumToDelete = albums.firstOrNull()
-            albumToDelete?.let {
-                sharedRepository.deleteAlbum(it)
-                Log.d("@dev", "🗑️ Álbum eliminado: ${it.title}")
-            }
+
 
         }
     }
@@ -119,8 +110,7 @@ class MainActivity : AppCompatActivity() {
         val sharedRepository = ModelsDataRepository(
             localShared = ModelsXmlDataSource(this),
             localRoom = ModelsDbDataSource(DatabaseProvider.getDatabase(this)),
-            remoteMock = ModelsMockDataSource(),
-            remoteFirestore = ModelsFirestoreDataSource()
+            remoteMock = ModelsMockDataSource()
         )
 
         //Evidentemente no funciona

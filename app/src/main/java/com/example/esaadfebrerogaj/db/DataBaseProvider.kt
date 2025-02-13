@@ -2,6 +2,7 @@ package com.example.esaadfebrerogaj.db
 
 import android.content.Context
 import androidx.room.Room
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 object DatabaseProvider {
@@ -20,5 +21,9 @@ object DatabaseProvider {
             INSTANCE = instance
             instance
         }
+    }
+
+    fun provideFirestore(): FirebaseFirestore {
+        return FirebaseFirestore.getInstance()
     }
 }
